@@ -4,6 +4,24 @@
     "productId": "0x0004",
     "matrix": {"rows": 8, "cols": 7},
     "lighting": "vialrgb",
+    "modules": [
+        "ohshitgorillas/xcase",
+        "getreuer/select_word"
+    ],
+    "customKeycodes": [
+        {"name": "SELWORD",
+            "title": "Select Word",
+            "shortName": "S Word"
+        },
+        {"name": "SELWBAK",
+            "title": "Select Word Back",
+            "shortName": "S WBack"
+        },
+        {"name": "SELLINE",
+            "title": "Select Line",
+            "shortame": "S Line"
+        }
+    ],
     "layouts": {
         "labels": [
             ["Left EX1",  "Key", "Encoder", "None"],

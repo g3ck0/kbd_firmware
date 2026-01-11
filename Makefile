@@ -67,9 +67,11 @@ vial-qmk-compile:
 	$(eval KR := ${kr})
 	$(eval KM := ${km})
 	$(eval FILE := $(shell echo "${kb}_${kr}_${km}" | sed 's/\//_/'))
+	$(eval TIMESTAMP := $(shell date +'%Y%m%d_%H%M'))
+	$(eval FILE1 := $(shell echo "${kb}_${kr}_${km}_${TIMESTAMP}" | sed 's/\//_/'))
 	cd src/vial-kb/vial-qmk; qmk compile -kb tmp/${KB}/${KR} -km ${KM}
-	cp src/vial-kb/vial-qmk/.build/tmp_${FILE}.hex keyboards/${KB}/vial-kb/vial-qmk/.build/${FILE}.hex | true
-	cp src/vial-kb/vial-qmk/.build/tmp_${FILE}.uf2 keyboards/${KB}/vial-kb/vial-qmk/.build/${FILE}.uf2 | true
+	cp src/vial-kb/vial-qmk/.build/tmp_${FILE}.hex keyboards/${KB}/vial-kb/vial-qmk/.build/${FILE1}.hex | true
+	cp src/vial-kb/vial-qmk/.build/tmp_${FILE}.uf2 keyboards/${KB}/vial-kb/vial-qmk/.build/${FILE1}.uf2 | true
 
 vial-qmk-flash:
 	$(eval KB := ${kb})
@@ -98,3 +100,8 @@ update-all:
 	make vial-qmk-clean
 	make vial-qmk-init-all
 	make vial-qmk-compile-all
+
+build-41:
+	make vial-qmk-clean
+	kb=crkbd make vial-qmk-init
+	kb=crkbd kr=rev4_1/standard km=vial make vial-qmk-compile

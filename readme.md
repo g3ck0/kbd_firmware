@@ -13,7 +13,56 @@ Please get source files of `qmk/qmk_firmware` and `vial-kb/vial-qmk`
 make git-submodule
 ```
 
-## 3. Building firmwares
+## 3. Add modules
+
+Please get source files of `qmk/qmk_firmware` and `vial-kb/vial-qmk`
+```sh
+cd src
+cd vial-kb/vial-qmk
+git submodule add https://github.com/ohshitgorillas/qmk-xcase.git modules/ohshitgorillas/xcase
+git submodule add https://github.com/getreuer/qmk-modules.git modules/getreuer
+
+git submodule update --init --recursive
+```
+
+## 3.1 Add modules to Configuration
+
+Add to `keyboards/crkbd/qmk/qmk_firmware/rev4_1/standard/keyboard.json` and to `keyboards/crkbd/vial-kb/vial-qmk/keymaps/vial/vial.json`:
+```json
+
+    "modules": [
+        "ohshitgorillas/xcase",
+        "getreuer/select_word"
+    ],    
+    "customKeycodes": [
+        {"name": "SELWORD",
+            "title": "Select Word",
+            "shortName": "S Word"
+        },
+        {"name": "SELWBAK",
+            "title": "Select Word Back",
+            "shortName": "S WBack"
+        },
+        {"name": "SELLINE",
+            "title": "Select Line",
+            "shortame": "S Line"
+        }
+    ],
+```
+
+## 3.2 VIAL Compatibility
+
+For `getreuer/select_word` module, add this on `select_word.c`
+```c
+#define SELECT_WORD QK_KB_0  
+#define SELECT_WORD_BACK QK_KB_1   
+#define SELECT_LINE QK_KB_2  
+```
+
+For `ohshitgorillas/xcase` module, validate that this file exists `introspection.h`
+
+
+## 4. Building firmwares
 
 ### for VIA
 
@@ -40,7 +89,7 @@ make update-all
 ```
 
 
-## 4. Lighting
+## 5. Lighting
 
 To be able to use ligting per layer, and also to identify when Caps Locks/Caps Words is active:
 
@@ -86,7 +135,7 @@ In this part (it is not the complete configuration of the file)
 
 These functions help us to identify when the Caps Lock/Caps Word are active or we change of layer and then call the function that apply the colors/effects
 
-```
+```c
 bool rgb_matrix_indicators_kb(void) {
     if (!rgb_matrix_indicators_user()) {
         return false;
@@ -113,7 +162,7 @@ void caps_word_set_user(bool active) {
 
 This is the function that applies the color changes:
 
-```
+```c
 // Function to set RGB based on current state
 void update_rgb_state(void) {
     bool caps_word_active = is_caps_word_on();
@@ -172,6 +221,7 @@ void update_rgb_state(void) {
             rgb_matrix_mode_noeeprom(RGB_MATRIX_STARLIGHT_SMOOTH);
             rgb_matrix_sethsv_noeeprom(HSV_TEAL);
             break;
+
     }
 }
 ```

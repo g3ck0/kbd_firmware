@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  qmk_cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qmk_cli_kbd_firmware
+    volumes:
+      - ./:/qmk_firmware
+    tty: true
+    stdin_open: true
+    restart: unless-stopped

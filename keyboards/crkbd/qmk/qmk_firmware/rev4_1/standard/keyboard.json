@@ -25,6 +25,24 @@
     "dynamic_keymap": {
         "layer_count": 6
     },
+    "modules": [
+        "ohshitgorillas/xcase",
+        "getreuer/select_word"
+    ],
+    "customKeycodes": [
+        {"name": "SELWORD",
+            "title": "Select Word",
+            "shortName": "S Word"
+        },
+        {"name": "SELWBAK",
+            "title": "Select Word Back",
+            "shortName": "S WBack"
+        },
+        {"name": "SELLINE",
+            "title": "Select Line",
+            "shortame": "S Line"
+        }
+    ],
     "matrix_pins": {
         "direct":[
             ["GP22", "GP20", "GP23", "GP26", "GP29",  "GP0",  "GP4"],

@@ -19,7 +19,7 @@
         },
         {"name": "SELLINE",
             "title": "Select Line",
-            "shortame": "S Line"
+            "shortName": "S Line"
         }
     ],
     "layouts": {

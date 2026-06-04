@@ -5,7 +5,6 @@
     "matrix": {"rows": 8, "cols": 7},
     "lighting": "vialrgb",
     "modules": [
-        "ohshitgorillas/xcase",
         "getreuer/select_word"
     ],
     "customKeycodes": [

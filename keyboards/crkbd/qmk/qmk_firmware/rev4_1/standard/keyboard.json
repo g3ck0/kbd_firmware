@@ -26,7 +26,6 @@
         "layer_count": 6
     },
     "modules": [
-        "ohshitgorillas/xcase",
         "getreuer/select_word"
     ],
     "customKeycodes": [

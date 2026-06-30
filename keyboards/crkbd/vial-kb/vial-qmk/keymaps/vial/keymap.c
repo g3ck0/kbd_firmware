@@ -1,14 +1,14 @@
 #include QMK_KEYBOARD_H
-#include "process_leader.h"
-#define OS_LSFT OSM(MOD_LSFT)
 
+#include "xcase/xcase.c"
 #include "feature/ligth.c"
-// #include "feature/xcase.c"
+#include "feature/modcase.c"
+#include "feature/modprocessrecord.c"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3_ex2(
   //,--------------------------------------------------------------.  ,--------------------------------------------------------------.
-       KC_TAB,    KC_Q,  LGUI_T(KC_W),    KC_E,    KC_R,    KC_T, KC_LCTL,    KC_RCTL,    KC_Y,    KC_U,    KC_I,    KC_O,   KC_BSPC,  KC_BSPC,
+       QK_LEAD,    KC_Q,  LGUI_T(KC_W),    KC_E,    KC_R,    KC_T, KC_LCTL,    KC_RCTL,    KC_Y,    KC_U,    KC_I,    KC_O,   KC_BSPC,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
       KC_LCTL,  LCTL_T(KC_A),    KC_S, LCTL(KC_D),  LSFT_T(KC_F),    KC_G, KC_LALT,    KC_RALT,    KC_H,    KC_J,    KC_K,    KC_L, KC_P, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|

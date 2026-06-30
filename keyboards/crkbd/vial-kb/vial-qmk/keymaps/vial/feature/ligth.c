@@ -1,3 +1,8 @@
+// #include "ligth.h"
+#include "quantum.h"
+#include <stdbool.h>
+#include <stdint.h>
+#include "modprocessrecord.h"
 
 // Function to set RGB based on current state
 void update_rgb_state(void) {
@@ -69,6 +74,9 @@ bool rgb_matrix_indicators_kb(void) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     update_rgb_state();
+    if (!layer_state_cmp(state, 2)) {
+        sel_latch_off();
+    }
     return state;
 }
 

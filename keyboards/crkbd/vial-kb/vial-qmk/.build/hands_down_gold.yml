@@ -1,0 +1,126 @@
+#https://keymap-drawer.streamlit.app/
+layout:
+  qmk_keyboard: corne_rotated
+  layout_name: LAYOUT_split_3x5_3
+layers:
+  DEF:
+    - [{h: Alt, t: J}, G, M, P, X, ";", "-", T, "'", BSpace]
+    - [R, S, N, {h: Shift, t: D}, B, ",", {h: Shift, t: A}, {h: Ctrl, t: E}, I, {h: Gui, t: H}]
+    - [V, {h: SYM, t: F}, L, C, W, ".", O, U, {h: SYM, t: Y}, K]
+    - {h: NUM,   t: Space}
+    - {h: NAV,  t: Tab}
+    - {h: UTILS,   t: Delete}
+    - {h: FN,   t: Enter}
+    - {h: PROG, t: Delete}
+    - {h: UTILS,   t: Esc}
+  NUM:
+    - ["Ctrl G", F2, "Ctrl Shift D", null, "Scrn Shot", {t: "=", s: "+"}, 7, 8, 9, "*"]
+    - ["Ctrl A", "Win Shift Left", "Win Alt Tab", "Win Shift Right", null, 0, 4, 5, 6, {t: "/", s: "?"}]
+    - ["Ctrl Z", "Ctrl Shift N", "Win E", "Win R", null, {t: "-", s: "_"}, 1, 2, 3, {t: ".", s: ">"}]
+    - {h: NUM,   t: Space, type: held}
+    - {h: NAV,  t: Tab}
+    - {h: UTILS,   t: Delete}
+    - {h: FN,   t: Enter}
+    - {h: PROG, t: Delete}
+    - {h: UTILS,   t: Esc}
+  NAV:
+    - [Ctrl W, Ctrl Page Up, Ctrl R, Ctrl Page Down, Ctrl T, Ctrl W, Ctrl Page Up, Ctrl R, Ctrl Page Down, Ctrl T]
+    - [Home, Page Up, Up, Page Down, null, null, Page Up, Up, Page Down, Home]
+    - [End, Left, Down, Right, null, null, Left, Down, Right, End]
+    - {h: NUM,   t: Space}
+    - {h: NAV,  t: Tab, type: held}
+    - {h: UTILS,   t: Delete}
+    - {h: FN,   t: Enter}
+    - {h: PROG, t: Delete}
+    - {h: UTILS,   t: Esc}
+  SYM:
+    - [{h: "`", t: "~"}, "@", "?", null, null, null, "!", "=", "+", Bspace]
+    - ["#", "_", {h: "-", t: "_"}, "*", "&", null, "(", "[", "{", ":="]
+    - [null, {t: "%", type: held}, "$", {h: "/", t: "?"}, {h: "\\", t: "|"}, null, ")", "]" , {t: "}", type: held}, "||"]
+    - {h: NUM,   t: Space}
+    - {h: NAV,  t: Tab}
+    - {h: UTILS,   t: Delete}
+    - {h: FN,   t: Enter}
+    - {h: PROG, t: Delete}
+    - {h: UTILS,   t: Esc}
+  PROG:
+    - ["Ctrl Shift U", null, null, "Ctrl P", "Ctrl Shift P", null,"Shift Alt Down", null,  null, null]
+    - ["Ctrl \\", "Ctrl /", "RAlt N", "Ctrl B", "Ctrl Shift V", "Shift Alt R", null, null, null, null]
+    - ["Ctrl Enter", "Alt F10", F5, "Shift F4", "Menu", "Ctrl Shift C", null, null, null, null]
+    - {h: NUM, t: Space}
+    - {h: NAV, t: Tab}
+    - {h: UTILS, t: Delete}
+    - {h: FN, t: Enter}
+    - {h: UTILS, t: Delete}
+    - {h: PROG, t: Esc, type: held}
+  UTILS:
+    - [Ctrl S, Ctrl N, "Ctrl Shift T", "Ctrl Shift C", "Ctrl T", null, null, null, null, null]
+    - [Ctrl F, Ctrl Shift F, Ctrl Shift G, null, null, null, Shift, Ctrl, null, null]
+    - [null,  null, null, null, null, null, ":=", "=>", "->", null]
+    - {h: NUM,   t: Space}
+    - {h: NAV,  t: Tab}
+    - {h: UTILS, t: Delete, type: held}
+    - {h: FN,   t: Enter}
+    - {h: UTILS, t: Delete, type: held}
+    - {h: PROG, t: Esc}
+  FN:
+    - ["F1", "F2", "F3", "F4", null, null, null, null, null, null]
+    - ["F5", "F6", "F7", "F8", null, null, null, null, null, null]
+    - ["F9", "F10", "F11", "F12", null, null, null, null, null, null]
+    - {h: NUM,   t: Space}
+    - {h: NAV,  t: Tab}
+    - {h: UTILS,   t: Delete}
+    - {h: FN,   t: Enter, type: held}
+    - {h: UTILS, t: Delete}
+    - {h: PROG,   t: Esc}
+  NAV2:
+    - [Page Up, Home, null, End, null, null,Home, null, End, Page Up]
+    - [Page Down, Ctrl Left, Up, Ctrl Right, DEL_LAYER, DEL_LAYER, Ctrl Left, Up, Ctrl Right, Page Down]
+    - [Sel_Latch, Left, Down, Right, TAB_LAYER, TAB_LAYER, Left, Down, Right, Sel_Latch]
+    - {h: NUM,   t: Space}
+    - {h: NAV,  t: Tab, type: held}
+    - {h: UTILS,   t: Delete}
+    - {h: FN,   t: Enter}
+    - {h: PROG, t: Delete}
+    - {h: UTILS,   t: Esc}
+  TAB_LAYER:
+    - [Ctrl W, null, Ctrl R, null, null, null, null, Ctrl R, null, Ctrl W]
+    - [null, Ctrl N, Ctrl Shift T, null, null, null, null, Ctrl Shift T, Ctrl N, null]
+    - [null, Ctrl Page Up, Ctrl T, Ctrl Page Down, {t: TAB_LAYER, type: held}, {t: TAB_LAYER, type: held}, Ctrl Page Up, Ctrl T, Ctrl Page Down, null]
+    - {h: NUM,   t: Space}
+    - {h: NAV,  t: Tab, type: held}
+    - {h: UTILS,   t: Delete}
+    - {h: FN,   t: Enter}
+    - {h: PROG, t: Delete}
+    - {h: UTILS,   t: Esc}
+  DEL_LAYER:
+    - [null, Ctrl Shift Bspace, null, Ctrl Shift Del, null, null, Ctrl Shift Bspace, null, Ctrl Shift Del, null]
+    - [null, Ctrl Bspace, null, Ctrl Del, {t: DEL_LAYER, type: held}, {t: DEL_LAYER, type: held}, Ctrl Bspace, null, Ctrl Del, null]
+    - [null, Bspace, null, Del, null, null, Bspace, null, Del, null]
+    - {h: NUM,   t: Space}
+    - {h: NAV,  t: Tab, type: held}
+    - {h: UTILS,   t: Delete}
+    - {h: FN,   t: Enter}
+    - {h: PROG, t: Delete}
+    - {h: UTILS,   t: Esc}
+combos:
+  - {p: [31, 32], k: "Lock Layout", l: ["DEF"]}
+  - {p: [33, 34], k: "Lock Layout", l: ["DEF"]}
+  - {p: [13, 16], k: "Caps", l: ["DEF"], a: top}
+  - {p: [0, 1, 2, 3], k: "Ctrl + Alt + Delete", l: ["DEF"], a: top, o: 1, arc_scale: 1.2}
+  - {p: [21, 23], k: "Delete", l: ["DEF"], a: bottom, o: 0.5, arc_scale: 1.2}
+  - {p: [20, 21], k: "Ctrl X", l: ["DEF"], a: bottom}
+  - {p: [21, 22], k: "Ctrl C", l: ["DEF"], a: bottom}
+  - {p: [22, 23], k: "Ctrl V", l: ["DEF"], a: bottom}
+  - {p: [1, 12], k: "Ctrl W", l: ["DEF"]}
+  - {p: [10, 11, 12], k: "Shortcuts", l: ["DEF"], a: top}
+  - {p: [11, 12], k: "Z", l: ["DEF"], a: bottom}
+  - {p: [11, 12, 13], k: "PROG", l: ["DEF"], a: top}
+  - {p: [1, 2], k: "Q", l: ["DEF"]}
+  - {p: [0, 1], k: "Esc", l: ["DEF"]}
+  - {p: [21,22, 24], k: "Sel Word", l: ["DEF"]}
+  - {p: [23, 24], k: "Sel BWord", l: ["DEF"]}
+  - {p: [1, 2, 3], k: "Sel Line", l: ["DEF"], a: top}
+  - {p: [17, 18], k: ";", l: ["DEF"]}
+  - {p: [27, 28], k: ",", l: ["DEF"]}
+  - {p: [28, 29], k: ".", l: ["DEF"]}

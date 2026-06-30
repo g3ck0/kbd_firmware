@@ -5,6 +5,8 @@
 #define VIAL_UNLOCK_COMBO_COLS {0, 1}
 
 
+#define LEADER_TIMEOUT 350
+// #define LEADER_PER_KEY_TIMING
 
 // Define Layers to 10
 #undef DYNAMIC_KEYMAP_LAYER_COUNT

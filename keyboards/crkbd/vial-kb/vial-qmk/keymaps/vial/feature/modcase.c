@@ -16,16 +16,19 @@ void leader_end_user(void) {
     
     // Leader, S, C for snake_case
     if (leader_sequence_one_key(KC_S)) {
+        caps_word_off();
         enable_xcase_with(KC_UNDS);
         // SEND_STRING("sc");
     }
     // Leader, K, C for kebab-case
     if (leader_sequence_one_key(KC_K)) {
+        caps_word_off();
         enable_xcase_with(KC_MINS);
         // SEND_STRING("kc");
     }
     // Leader, C, C for camelCase
     if (leader_sequence_one_key(KC_C)) {
+        caps_word_off();
         enable_xcase_with(KC_LSFT );
     }
     

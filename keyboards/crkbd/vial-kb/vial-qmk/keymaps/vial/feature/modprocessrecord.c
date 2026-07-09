@@ -87,12 +87,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         switch (keycode) {
             case XCASE_SNAKE:
+                caps_word_off();
                 enable_xcase_with(KC_UNDS);
                 return false; // Keycode handled
             case XCASE_KEBAB:
+                caps_word_off();
                 enable_xcase_with(KC_MINS);
                 return false; // Keycode handled
             case XCASE_CAMEL:
+                caps_word_off();
                 enable_xcase_with(KC_LSFT);
                 return false; // Keycode handled
             case XCASE_OFF:

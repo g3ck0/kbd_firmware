@@ -53,7 +53,8 @@ bool is_xcase_exclusion_keycode(uint16_t keycode) {
         IS_QK_ONE_SHOT_LAYER(keycode) ||
         IS_QK_TO(keycode) ||
         IS_QK_LAYER_MOD(keycode) ||
-        IS_QK_ONE_SHOT_MOD(keycode)
+        IS_QK_ONE_SHOT_MOD(keycode) ||
+        is_caps_word_on()       // if caps_word is active
     ) {
         return true;
     }

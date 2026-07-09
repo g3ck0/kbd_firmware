@@ -6,3 +6,4 @@
 
 # qmk
 .build/*
+keyboards/crkbd/vial-kb/vial-qmk/.build/*

@@ -73,6 +73,71 @@
             "name": "MOD_ACCENT",
             "title": "Accent Flag",
             "shortName": "ACCENT"
+        },
+        {
+            "name": "MOD_ACCENT",
+            "title": "Accent Flag",
+            "shortName": "ACCENT"
+        },
+        {
+            "name": "SK_KILL",
+            "title": "Kill",
+            "shortName": "Kill"
+        },
+        {
+            "name": "SK_FIND",
+            "title": "Find",
+            "shortName": "Find"
+        },
+        {
+            "name": "SK_DELWDL",
+            "title": "Delete Word Left",
+            "shortName": "Del W Left"
+        },
+        {
+            "name": "SK_DELWDR",
+            "title": "Delete Word Right",
+            "shortName": "Del W Right"
+        },
+        {
+            "name": "SK_DELLNL",
+            "title": "Delete Line Left",
+            "shortName": "Del L Left"
+        },
+        {
+            "name": "SK_DELLNR",
+            "title": "Delete Line Right",
+            "shortName": "Del L Right"
+        },
+        {
+            "name": "SK_WORDPRV",
+            "title": "Word Previous",
+            "shortName": "Word Prev"
+        },
+        {
+            "name": "SK_WORDNXT",
+            "title": "Word Next",
+            "shortName": "Word Next"
+        },
+        {
+            "name": "SK_DOCBEG",
+            "title": "Document Begin",
+            "shortName": "Doc Beg"
+        },
+        {
+            "name": "SK_DOCEND",
+            "title": "Document End",
+            "shortName": "Doc End"
+        },
+        {
+            "name": "SK_LINEBEG",
+            "title": "Line Begin",
+            "shortName": "Line Beg"
+        },
+        {
+            "name": "SK_LINEEND",
+            "title": "Line End",
+            "shortName": "Line End"
         }
     ],
     "matrix_pins": {

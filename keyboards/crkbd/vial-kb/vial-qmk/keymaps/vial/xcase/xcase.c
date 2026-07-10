@@ -3,10 +3,6 @@
 */
 
 #include "xcase.h"
-#define XCASE_SNAKE QK_KB_3
-#define XCASE_KEBAB QK_KB_4   
-#define XCASE_CAMEL QK_KB_5  
-#define XCASE_OFF QK_KB_6
 
 // private variables
 static bool xcase_active = false;

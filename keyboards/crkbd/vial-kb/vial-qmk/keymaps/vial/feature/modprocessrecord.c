@@ -1,5 +1,8 @@
 #include QMK_KEYBOARD_H
+#include "modcase.h"
 #include "../xcase/xcase.h"
+#include "../xcase/xcase.c"
+#include "../handsdown/moutis_semantickeys.h"
 #define SEL_LATCH QK_KB_7
 #define MOD_ACCENT QK_KB_8
 
@@ -81,6 +84,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 compose_pending = false;
                 return true;  // pass through unchanged
         }
+    }
+
+    if (!process_semkey(keycode, record)) {
+        return false; // took care of that key
     }
 
     // Handle activation/deactivation keycodes first

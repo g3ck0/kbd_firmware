@@ -1,9 +1,11 @@
 #include QMK_KEYBOARD_H
 
-#include "xcase/xcase.c"
+#include "xcase/xcase.h"
+#include "handsdown/moutis.h"
 #include "feature/ligth.c"
-#include "feature/modcase.c"
-#include "feature/modprocessrecord.c"
+#include "feature/modcase.h"
+// #include "feature/modprocessrecord.c"
+
 
 // Custom keycode aliases (defined in modprocessrecord.c and vial.json)
 // QK_KB_0 = SELWORD   QK_KB_1 = SELWBAK   QK_KB_2 = SELLINE
@@ -93,11 +95,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // -----------------------------------------------------------------------
   [5] = LAYOUT_split_3x6_3_ex2(
   //  ,-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------.        ,-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------.
-           KC_PGUP      ,    KC_HOME      ,     KC_UP       ,     KC_END      , LCTL(KC_PGUP)   ,     XXXXXXX     ,     _______     ,              _______     ,     XXXXXXX     ,     XXXXXXX     ,    KC_HOME      ,     KC_UP       ,     KC_END      ,   KC_PGUP       ,
+           KC_PGUP      ,    SK_LINEBEG   ,     KC_UP       ,     SK_LINEEND  , LCTL(KC_PGUP)   ,     XXXXXXX     ,     _______     ,              _______     ,     XXXXXXX     ,     XXXXXXX     ,    KC_HOME      ,     KC_UP       ,     KC_END      ,   KC_PGUP       ,
   //  |-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------|        |-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------|
            KC_PGDN      ,    KC_LEFT      ,    KC_DOWN      ,    KC_RIGHT     , LCTL(KC_PGDN)   ,     XXXXXXX     ,     _______     ,              _______     ,     XXXXXXX     ,     XXXXXXX     ,    KC_LEFT      ,    KC_DOWN      ,    KC_RIGHT     ,   KC_PGDN       ,
   //  |-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------|        |-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------|
-           QK_KB_7      ,  LCTL(KC_LEFT)  ,     XXXXXXX     , LCTL(KC_RIGHT)  ,     XXXXXXX     ,     XXXXXXX     ,                                                  XXXXXXX     ,     XXXXXXX     ,  LCTL(KC_LEFT)  ,    XXXXXXX      , LCTL(KC_RIGHT)  ,   QK_KB_7       ,
+           QK_KB_7      ,  SK_WORDPRV     ,     XXXXXXX     ,     SK_WORDNXT  ,     XXXXXXX     ,     XXXXXXX     ,                                                  XXXXXXX     ,     XXXXXXX     ,  LCTL(KC_LEFT)  ,    XXXXXXX      , LCTL(KC_RIGHT)  ,   QK_KB_7       ,
   //  `-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+                 |        |                 +-----------------+-----------------+-----------------+-----------------+-----------------+-----------------'
                                                                                    _______      ,     _______     ,     _______     ,          QK_LAYER_LOCK   ,     MO(7)       ,     MO(6)
   //                                                                          `-----------------+-----------------+-----------------'        `-----------------+-----------------+-----------------'

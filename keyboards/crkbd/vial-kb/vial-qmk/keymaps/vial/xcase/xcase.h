@@ -2,6 +2,10 @@
 
 #include "quantum.h"
 
+#define XCASE_SNAKE QK_KB_3
+#define XCASE_KEBAB QK_KB_4   
+#define XCASE_CAMEL QK_KB_5  
+#define XCASE_OFF QK_KB_6
 /**
  * @brief Enable xcase with a given delimiter.
  * @param delimiter The keycode to use as a delimiter.

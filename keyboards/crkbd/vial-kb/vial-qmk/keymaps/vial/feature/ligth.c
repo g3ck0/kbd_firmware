@@ -2,7 +2,7 @@
 #include "quantum.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include "modprocessrecord.h"
+#include "modprocessrecord.c"
 
 // Function to set RGB based on current state
 void update_rgb_state(void) {

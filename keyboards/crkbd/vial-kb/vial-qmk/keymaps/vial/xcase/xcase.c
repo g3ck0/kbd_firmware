@@ -222,3 +222,24 @@ void disable_xcase(void) {
     remove_xcase_exclusion_keycode(xcase_delimiter);
 }
 
+
+/**
+ * @brief Get the current xcase delimiter keycode.
+ */
+uint16_t get_xcase_delimiter(void) {
+    return xcase_delimiter;
+}
+
+/**
+ * @brief Get the last keycode processed while xcase was active.
+ */
+uint16_t get_xcase_last_keycode(void) {
+    return last_keycode;
+}
+
+/**
+ * @brief Set the last keycode processed while xcase was active.
+ */
+void set_xcase_last_keycode(uint16_t kc) {
+    last_keycode = kc;
+}

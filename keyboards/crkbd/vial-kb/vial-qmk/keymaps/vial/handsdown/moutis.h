@@ -11,6 +11,8 @@ typedef union {
     };
 } user_config_t; // used for persistent memory of settings (only 16 bytes avail on AVR?)
 
+extern user_config_t user_config;
+
 
 enum OS_Platform { // Used for platform support via SemKeys
     OS_Mac,     // Mac with ANSI_US_EXTENDED layout

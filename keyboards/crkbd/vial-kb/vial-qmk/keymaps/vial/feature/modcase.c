@@ -6,6 +6,17 @@
 //xcase
 //https://github.com/ohshitgorillas/qmk-xcase
 
+
+void tap_accented(uint16_t lower, uint16_t upper) {
+    if (get_mods() & MOD_MASK_SHIFT) {
+        del_mods(MOD_MASK_SHIFT);
+        tap_code16(upper);
+        add_mods(MOD_MASK_SHIFT);
+    } else {
+        tap_code16(lower);
+    }
+}
+
 void leader_start_user(void) {
     // Do something when the leader key is pressed
     return;
@@ -50,13 +61,3 @@ void leader_end_user(void) {
     }
 }
 
-
-void tap_accented(uint16_t lower, uint16_t upper) {
-    if (get_mods() & MOD_MASK_SHIFT) {
-        del_mods(MOD_MASK_SHIFT);
-        tap_code16(upper);
-        add_mods(MOD_MASK_SHIFT);
-    } else {
-        tap_code16(lower);
-    }
-}

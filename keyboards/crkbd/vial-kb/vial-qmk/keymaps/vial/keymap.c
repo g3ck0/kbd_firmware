@@ -1,10 +1,9 @@
 #include QMK_KEYBOARD_H
 
+#include "feature/modcase.h"
 #include "xcase/xcase.h"
 #include "handsdown/moutis.h"
-#include "feature/ligth.c"
-#include "feature/modcase.h"
-// #include "feature/modprocessrecord.c"
+#include "feature/modprocessrecord.h"
 
 
 // Custom keycode aliases (defined in modprocessrecord.c and vial.json)

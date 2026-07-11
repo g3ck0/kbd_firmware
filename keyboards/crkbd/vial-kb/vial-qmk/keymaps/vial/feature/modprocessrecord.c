@@ -1,7 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "modcase.h"
 #include "../xcase/xcase.h"
-#include "../xcase/xcase.c"
 #include "../handsdown/moutis_semantickeys.h"
 #define SEL_LATCH QK_KB_7
 #define MOD_ACCENT QK_KB_8
@@ -12,7 +11,7 @@ static bool compose_pending = false;
 // Select latch state: real Shift, scoped to the EXTEND layer
 static bool sel_latch_active = false;
 
-static void sel_latch_off(void) {
+void sel_latch_off(void) {
     if (sel_latch_active) {
         unregister_code(KC_LSFT);
         sel_latch_active = false;
@@ -148,7 +147,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     // If not active, pass all keys through
-    if (!xcase_active) {
+    if (!is_xcase_active()) {
         return true;
     }
 
@@ -164,9 +163,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         if (base_keycode == KC_SPC) {
             // check for double space to exit xcase mode
-            if (last_keycode == KC_SPC) {
-                if (xcase_delimiter != KC_LSFT &&
-                    xcase_delimiter != KC_CAPS)
+            if (get_xcase_last_keycode() == KC_SPC) {
+                if (get_xcase_delimiter() != KC_LSFT &&
+                    get_xcase_delimiter() != KC_CAPS)
                 {
                     tap_code(KC_BSPC); // remove the trailing delimiter for non-camelCase
                 }
@@ -175,12 +174,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
 
             // replace space with delimiter
-            if (xcase_delimiter == KC_LSFT) {
-                add_oneshot_mods(MOD_BIT(xcase_delimiter));  // add one-shot shift for camelCase
+            if (get_xcase_delimiter() == KC_LSFT) {
+                add_oneshot_mods(MOD_BIT(get_xcase_delimiter()));  // add one-shot shift for camelCase
             } else {
-                tap_code16(xcase_delimiter);  // send the delimiter
+                tap_code16(get_xcase_delimiter());  // send the delimiter
             }
-            last_keycode = KC_SPC;
+            set_xcase_last_keycode(KC_SPC);
             return false; // do not send space
         }
 
@@ -188,7 +187,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (!is_xcase_exclusion_keycode(base_keycode)) {
             disable_xcase();
         } else {
-            last_keycode = base_keycode;
+            set_xcase_last_keycode(base_keycode);
         }
         return true;
     }

@@ -46,6 +46,24 @@ void remove_xcase_exclusion_keycode(uint16_t keycode);
 bool is_xcase_exclusion_keycode(uint16_t keycode);
 
 /**
+ * @brief Get the current xcase delimiter keycode.
+ * @return The current delimiter (e.g. KC_UNDS, KC_MINS, KC_LSFT).
+ */
+uint16_t get_xcase_delimiter(void);
+
+/**
+ * @brief Get the last keycode processed while xcase was active.
+ * @return The last base keycode (used for double-space detection).
+ */
+uint16_t get_xcase_last_keycode(void);
+
+/**
+ * @brief Set the last keycode processed while xcase was active.
+ * @param kc The keycode to store as last processed.
+ */
+void set_xcase_last_keycode(uint16_t kc);
+
+/**
  * @brief Process a keypress with xcase.
  * @param keycode The keycode of the keypress.
  * @param record The keyrecord to process.

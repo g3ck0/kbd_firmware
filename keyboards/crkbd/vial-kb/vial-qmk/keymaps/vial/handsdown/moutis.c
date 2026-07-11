@@ -50,9 +50,3 @@ void keyboard_post_init_user(void) {
     eeconfig_read_default_layer(); // get the default layer from eeprom.
 
 }
-
-#include "moutis_semantickeys.c" // anything could send a semantic, so…first
-
-// #include HD_process_record_code   // this might need to be HD variation dependent?
-// #include "moutis_process_record.c"
-#include "../feature/modprocessrecord.c"

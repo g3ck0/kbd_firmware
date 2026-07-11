@@ -52,6 +52,7 @@
   tested on my own machines, seems to work fine.
  
 */
+#include "moutis.h"
 
 const uint16_t SemKeys_t[SK_count][OS_count] = {
 // Mac, Win, (Phase 3, add others if necessary, expand to multi-key?)

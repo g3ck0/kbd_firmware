@@ -147,6 +147,7 @@
 #define SK_LINEEND  QK_KB_20
 
 #define SK_beg SK_KILL
+#define SK_end (SK_LINEEND + 1)
 #define SK_count (SK_end - SK_beg)
 #define SK_ndx(sk) (sk - SK_beg)
 
@@ -159,5 +160,4 @@
 
 // Forward declarations
 bool process_semkey(uint16_t keycode, const keyrecord_t *record);
-void tap_accented(uint16_t lower, uint16_t upper);
 

@@ -58,7 +58,7 @@ const uint16_t SemKeys_t[SK_count][OS_count] = {
 // Mac, Win, (Phase 3, add others if necessary, expand to multi-key?)
         // System-wide controls
 
-    [SK_ndx(SK_KILL)] = {LAG(KC_ESC),LCA(KC_DEL)},        // Force quit / ctrl-alt-del
+    [SK_ndx(SK_KILL)] = {LCA(KC_DEL)},        // Force quit / ctrl-alt-del
     // [SK_ndx(SK_HENK)] = {KC_LNG1, C(S(KC_1))},            // 変換/かな
     // [SK_ndx(SK_MHEN)] = {KC_LNG2, C(S(KC_0))},            // 無変換/英数
     // [SK_ndx(SK_DKT8)] = {C(S(KC_3)),G(KC_H)},             // Dictate speech to text
@@ -76,22 +76,22 @@ const uint16_t SemKeys_t[SK_count][OS_count] = {
     // [SK_ndx(SK_QUIT)] = {G(KC_Q),C(KC_Q)},                // quit
     // [SK_ndx(SK_NEW)]  = {G(KC_N),C(KC_N)},                  // new
     // [SK_ndx(SK_OPEN)] = {G(KC_O),C(KC_O)},                // open
-    [SK_ndx(SK_FIND)] = {G(KC_F),C(KC_F)},                // find
+    [SK_ndx(SK_FIND)] = {C(KC_F)},                // find
     // [SK_ndx(SK_FAGN)] = {G(KC_G),C(KC_G)},                // find again
     // [SK_ndx(SK_SCAP)] = {LSG(KC_4),KC_PSCR},              // Screen Capture
     // [SK_ndx(SK_SCLP)] = {C(S(G(KC_4))),A(KC_PSCR)},       // Selection Capture
     // [SK_ndx(SK_SRCH)] = {G(KC_SPC),G(KC_S)},              // platform search (siri/cortana, etc.)
-    [SK_ndx(SK_DELWDL)] = {A(KC_BSPC),C(KC_BSPC)},        // DELETE WORD LEFT
-    [SK_ndx(SK_DELWDR)] = {A(KC_DEL),C(KC_DEL)},          // DELETE WORD RIGHT
-    [SK_ndx(SK_DELLNL)] = {G(KC_BSPC),C(KC_BSPC)},        // Delete line left of cursor
-    [SK_ndx(SK_DELLNR)] = {G(KC_DEL),C(KC_DEL)},          // Delete line right of cursor
+    [SK_ndx(SK_DELWDL)] = {C(KC_BSPC)},        // DELETE WORD LEFT
+    [SK_ndx(SK_DELWDR)] = {C(KC_DEL)},          // DELETE WORD RIGHT
+    [SK_ndx(SK_DELLNL)] = {C(KC_BSPC)},        // Delete line left of cursor
+    [SK_ndx(SK_DELLNR)] = {C(KC_DEL)},          // Delete line right of cursor
         // extended navigation
-    [SK_ndx(SK_WORDPRV)] = {A(KC_LEFT),C(KC_LEFT)},       // WORD LEFT
-    [SK_ndx(SK_WORDNXT)] = {A(KC_RIGHT),C(KC_RIGHT)},     // WORD RIGHT
-    [SK_ndx(SK_DOCBEG)] = {G(KC_UP),C(KC_HOME)},          // Go to start of document
-    [SK_ndx(SK_DOCEND)] = {G(KC_DOWN),C(KC_END)},         // Go to end of document
-    [SK_ndx(SK_LINEBEG)] = {G(KC_DOWN),KC_HOME},          // Go to beg of line
-    [SK_ndx(SK_LINEEND)] = {G(KC_DOWN),KC_END},           // Go to end of line
+    [SK_ndx(SK_WORDPRV)] = {C(KC_LEFT)},       // WORD LEFT
+    [SK_ndx(SK_WORDNXT)] = {C(KC_RIGHT)},     // WORD RIGHT
+    [SK_ndx(SK_DOCBEG)] = {C(KC_HOME)},          // Go to start of document
+    [SK_ndx(SK_DOCEND)] = {C(KC_END)},         // Go to end of document
+    [SK_ndx(SK_LINEBEG)] = {KC_HOME},          // Go to beg of line
+    [SK_ndx(SK_LINEEND)] = {KC_END},           // Go to end of line
     // [SK_ndx(SK_PARAPRV)] = {A(KC_UP),C(KC_UP)},           // Go to previous paragraph
     // [SK_ndx(SK_PARANXT)] = {A(KC_DOWN),C(KC_DOWN)},       // Go to next paragraph
     // [SK_ndx(SK_HISTPRV)] = {G(KC_LBRC),A(KC_LEFT)},       // BROWSER BACK
@@ -158,22 +158,6 @@ void send_alt_code(uint16_t sk) {
 
 };
 
-void tap_SemKey(uint16_t sk) {
-    uint16_t semkeycode = get_SemKeyCode(sk);
-
-    if ((semkeycode & 0x8000) || (semkeycode & 0x4000)) {
-        clear_keyboard();           // must have clean buffer.
-        register_code(KC_LALT);     // hold Left Alt
-
-        send_alt_code(semkeycode); // send 3 or 4-digit alt code
-
-        unregister_code(KC_LALT);    // release Left Alt
-
-    } else {
-        tap_code16(semkeycode);      // regular keycode
-    }
-};
-
 void register_SemKey(uint16_t sk) {
     uint16_t semkeycode = get_SemKeyCode(sk);
     
@@ -187,6 +171,22 @@ void register_SemKey(uint16_t sk) {
 
     } else {
         register_code16(semkeycode);
+    }
+};
+
+void tap_SemKey(uint16_t sk) {
+    uint16_t semkeycode = get_SemKeyCode(sk);
+
+    if ((semkeycode & 0x8000) || (semkeycode & 0x4000)) {
+        clear_keyboard();           // must have clean buffer.
+        register_code(KC_LALT);     // hold Left Alt
+
+        send_alt_code(semkeycode); // send 3 or 4-digit alt code
+
+        unregister_code(KC_LALT);    // release Left Alt
+
+    } else {
+        tap_code16(semkeycode);      // regular keycode
     }
 };
 
@@ -204,96 +204,86 @@ void unregister_SemKey(uint16_t sk) {
 bool process_semkey(uint16_t keycode, const keyrecord_t *record) {
     // custom processing could hapen here
     uint8_t  held_mods;
+    static uint16_t registered_wordprv = 0;
+    static uint16_t registered_wordnxt = 0;
+    static uint16_t registered_linebeg = 0;
+    static uint16_t registered_lineend = 0;
+
     if (!(is_SemKey(keycode)))
         return true; // nothing to do. continue processing this record
     
-    held_mods = get_mods();
+    held_mods = get_mods() |
+                get_weak_mods() |
+                get_oneshot_mods();
+
     if (record->event.pressed) {
         switch (keycode) {
             case SK_WORDPRV: //
-                if (!(held_mods && MOD_MASK_GUI))
+                if (!(held_mods & ~MOD_MASK_SHIFT)) {
                     register_SemKey(SK_WORDPRV);
-                else
+                    registered_wordprv = SK_WORDPRV;
+                } else {
                     register_SemKey(SK_DELWDL);
+                    registered_wordprv = SK_DELWDL;
+                }
                 break;
             case SK_WORDNXT: //
-                if (!(held_mods && MOD_MASK_GUI))
+                if (!(held_mods & ~MOD_MASK_SHIFT)) {
                     register_SemKey(SK_WORDNXT);
-                else
+                    registered_wordnxt = SK_WORDNXT;
+                } else {
                     register_SemKey(SK_DELWDR);
+                    registered_wordnxt = SK_DELWDR;
+                }
                 break;
             case SK_LINEBEG: //
-                if (!(held_mods && MOD_MASK_GUI))
+                if (!(held_mods & ~MOD_MASK_SHIFT)) {
                     register_SemKey(SK_LINEBEG);
-                else if (held_mods && MOD_MASK_CTRL)
+                    registered_linebeg = SK_LINEBEG;
+                } else if (held_mods & MOD_MASK_CTRL) {
                     register_SemKey(SK_DOCBEG);
-                else
-                    register_SemKey(SK_DELLNL);
+                    registered_linebeg = SK_DOCBEG;
+                }
                 break;
             case SK_LINEEND: //
-                if (!(held_mods && MOD_MASK_GUI))
+                if (!(held_mods & ~MOD_MASK_SHIFT)) {
                     register_SemKey(SK_LINEEND);
-                else if (held_mods && MOD_MASK_CTRL)
+                    registered_lineend = SK_LINEEND;
+                } else if (held_mods & MOD_MASK_CTRL) {
                     register_SemKey(SK_DOCEND);
-                else
-                    register_SemKey(SK_DELLNR);
+                    registered_lineend = SK_DOCEND;
+                }
                 break;
-//
-// handle multi-keystroke semkeys here
-//
-            // case SK_SWRD: // Select current word
-            //     tap_SemKey(SK_WORDPRV);
-            //     register_code(KC_LSFT); // shift for select is close to universal?
-            //     tap_SemKey(SK_WORDNXT); // of course, not for VIM and the like,
-            //     unregister_code(KC_LSFT); // but we're talking OS platforms?
-            //     break;
-            // case SK_ENYE: // ñ/Ñ ENYE
-            //     // Doing it this way until proper multi-keystroke table is implemented
-            //     if (user_config.AdaptiveKeys
-            //         ) { // if  in English mode
-            //         clear_keyboard(); // clean record to tinker with.
-            //         tap_SemKey(SK_ENYE);
-            //         set_mods(held_mods & MOD_MASK_SHIFT); // Preserve shift state
-            //         tap_code16(KC_N);
-            //         // set_mods(held_mods); // restore mods just in case? (not necessary?)
-            //     }
-            //     break;
+
             default: // default keydown event (from the semkey table)
                 register_SemKey(keycode);
-/* Add the BCD decode for Win compose key stuff here
-
-*/
                 break;
         }
     } else { // The keyup event
         switch (keycode) {
             case SK_WORDPRV: //
-                if (!(held_mods && MOD_MASK_GUI))
-                    unregister_SemKey(SK_WORDPRV);
-                else
-                    unregister_SemKey(SK_DELWDL);
+                if (registered_wordprv) {
+                    unregister_SemKey(registered_wordprv);
+                    registered_wordprv = 0;
+                }
                 break;
             case SK_WORDNXT: //
-                if (!(held_mods && MOD_MASK_GUI))
-                    unregister_SemKey(SK_WORDNXT);
-                else
-                    unregister_SemKey(SK_DELWDR);
+                if (registered_wordnxt) {
+                    unregister_SemKey(registered_wordnxt);
+                    registered_wordnxt = 0;
+                }
                 break;
             case SK_LINEBEG: //
-                if (!(held_mods && MOD_MASK_GUI))
-                    unregister_SemKey(SK_LINEBEG);
-                else if (held_mods && MOD_MASK_CTRL)
-                    unregister_SemKey(SK_DOCBEG);
-                else
-                    unregister_SemKey(SK_DELLNL);
+                if (registered_linebeg) {
+                    unregister_SemKey(registered_linebeg);
+                    registered_linebeg = 0;
+                }
                 break;
             case SK_LINEEND: //
-                if (!(held_mods && MOD_MASK_GUI))
-                    unregister_SemKey(SK_LINEEND);
-                else if (held_mods && MOD_MASK_CTRL)
-                    unregister_SemKey(SK_DOCEND);
-                else
-                    unregister_SemKey(SK_DELLNR);
+                if (registered_lineend) {
+                    unregister_SemKey(registered_lineend);
+                    registered_lineend = 0;
+                }
                 break;
             default:
                 unregister_SemKey(keycode);

@@ -153,7 +153,7 @@
 
 #define is_SemKey(sk) ((sk >= (uint16_t)(SK_beg)) && (sk < (uint16_t)SK_end))
 
-#define get_SemKeyCode(sk) (SemKeys_t[SK_ndx(sk)][user_config.OSIndex])
+#define get_SemKeyCode(sk) (SemKeys_t[SK_ndx(sk)][0])
 
 #define linger_SemKey(sk) {register_SemKey(sk);linger_key = sk;linger_timer = state_reset_timer = timer_read();}
 #define unlinger_SemKey(sk) {unregister_SemKey(linger_key);linger_key = 0;}

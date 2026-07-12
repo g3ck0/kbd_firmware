@@ -2,8 +2,8 @@
 
 #include "feature/modcase.h"
 #include "xcase/xcase.h"
-#include "handsdown/moutis.h"
 #include "feature/modprocessrecord.h"
+#include "handsdown/moutis_semantickeys.h"
 
 
 // Custom keycode aliases (defined in modprocessrecord.c and vial.json)

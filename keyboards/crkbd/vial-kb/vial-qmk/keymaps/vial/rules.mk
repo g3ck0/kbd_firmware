@@ -18,5 +18,4 @@ SRC += xcase/xcase.c
 SRC += feature/modcase.c
 SRC += feature/ligth.c
 SRC += feature/modprocessrecord.c
-SRC += handsdown/moutis.c
 SRC += handsdown/moutis_semantickeys.c

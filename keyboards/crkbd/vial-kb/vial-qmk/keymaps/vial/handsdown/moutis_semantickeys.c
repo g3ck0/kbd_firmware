@@ -1,58 +1,8 @@
-/*
- Semantic Keys is a keystroke abstraction tool
- for platform independence.
- Simply swapping Gui/Cmd for Ctrl is insufficient.
- Anything that must be interpreted by the host
- in order to produce a glyph or keystroke(s) that issues a command,
- can be abstracted to a semantic function here, enabling
- host specific keystroke(s) to be sent as appropriate.
- 
- Now nearly 80 Semantic Keys are enabled. Most populated
- on the keymaps either directly, or through combos or Adaptive Keys.
- These are all commands or symbols that might
- use different keystrokes on different host systems.
+#include <quantum.h>
+#include <stdio.h>
+#include "../feature/modprocessrecord.h"
+#include "moutis_semantickeys.h"
 
- Many extended commands & symbols can be executed or entered
- with identical keystrokes on the keyboard,
- without needing unicode support enabled on the host.
-
- Phase 1:
-    simple 1:1 keystroke mapping
-   -- complete.
- 
- Phase 2:
- Integrate all combo and keymap processing so they both queue
- SemKeys to be handled in process_record_user, reducing the code
- and simplifying maintenance.
-  -- complete
- 
- Phase 3:
- Expand to multi-keystrokes, which would enable sending
- different compose sequences based on platform (diacritics),
- and possibly facilitate editor support (vim/emacs)?
-  -- complete
-
- Much thanks to Bryson Dodwell (b-dod on github,  u/praedatore)
- for completing phase 3 for WinCompose entry:
- https://github.com/b-dod/zsa-firmware/b-dod/moutis_semantickeys.c
-
- Phase 4:
- In use in most Hands Down variations in this repo. Next step would be
- to use it in Hands Down Polyglot for PanEuropean multi-platform layout
-  -- research proposal in the works.
-
-
- SemKeys_t table below is a uint16 keycode, unless MSB is high, then it
- is BCD of the 4·3·2 digit Windows/DOS character codes for AltGr compose.
-
-  based on the table at:
-  https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts
-  and
-  https://www.alt-codes.net
-  tested on my own machines, seems to work fine.
- 
-*/
-#include "moutis.h"
 // Maximum number of keycodes in a sequence
 #define MAX_SEMKEY_SEQUENCE 3
 

@@ -53,12 +53,24 @@
  
 */
 #include "moutis.h"
+// Maximum number of keycodes in a sequence
+#define MAX_SEMKEY_SEQUENCE 3
 
-const uint16_t SemKeys_t[SK_count][OS_count] = {
+// Semantic key data structure: holds platform-specific keycode sequences
+// Sequences are terminated by KC_NO
+typedef struct {
+    // uint16_t mac_sequence[MAX_SEMKEY_SEQUENCE];
+    uint16_t win_sequence[MAX_SEMKEY_SEQUENCE];
+} semkey_map_t;
+
+// Track the registered semantic key for proper release
+static uint16_t registered_semkey_code = KC_NO;
+
+static const semkey_map_t semkey_table[SK_count] = {
 // Mac, Win, (Phase 3, add others if necessary, expand to multi-key?)
         // System-wide controls
 
-    [SK_ndx(SK_KILL)] = {LCA(KC_DEL)},        // Force quit / ctrl-alt-del
+    [SK_ndx(SK_KILL)] = {{LCA(KC_DEL), KC_NO}},        // Force quit / ctrl-alt-del
     // [SK_ndx(SK_HENK)] = {KC_LNG1, C(S(KC_1))},            // 変換/かな
     // [SK_ndx(SK_MHEN)] = {KC_LNG2, C(S(KC_0))},            // 無変換/英数
     // [SK_ndx(SK_DKT8)] = {C(S(KC_3)),G(KC_H)},             // Dictate speech to text
@@ -76,22 +88,22 @@ const uint16_t SemKeys_t[SK_count][OS_count] = {
     // [SK_ndx(SK_QUIT)] = {G(KC_Q),C(KC_Q)},                // quit
     // [SK_ndx(SK_NEW)]  = {G(KC_N),C(KC_N)},                  // new
     // [SK_ndx(SK_OPEN)] = {G(KC_O),C(KC_O)},                // open
-    [SK_ndx(SK_FIND)] = {C(KC_F)},                // find
+    [SK_ndx(SK_FIND)] = {{C(KC_F), KC_NO}},                // find
     // [SK_ndx(SK_FAGN)] = {G(KC_G),C(KC_G)},                // find again
     // [SK_ndx(SK_SCAP)] = {LSG(KC_4),KC_PSCR},              // Screen Capture
     // [SK_ndx(SK_SCLP)] = {C(S(G(KC_4))),A(KC_PSCR)},       // Selection Capture
     // [SK_ndx(SK_SRCH)] = {G(KC_SPC),G(KC_S)},              // platform search (siri/cortana, etc.)
-    [SK_ndx(SK_DELWDL)] = {C(KC_BSPC)},        // DELETE WORD LEFT
-    [SK_ndx(SK_DELWDR)] = {C(KC_DEL)},          // DELETE WORD RIGHT
-    [SK_ndx(SK_DELLNL)] = {C(KC_BSPC)},        // Delete line left of cursor
-    [SK_ndx(SK_DELLNR)] = {C(KC_DEL)},          // Delete line right of cursor
+    [SK_ndx(SK_DELWDL)] = {{C(KC_BSPC), KC_NO}},        // DELETE WORD LEFT
+    [SK_ndx(SK_DELWDR)] = {{C(KC_DEL), KC_NO}},          // DELETE WORD RIGHT
+    [SK_ndx(SK_DELLNL)] = {{S(KC_HOME), KC_BSPC, KC_NO}},        // Delete line left of cursor
+    [SK_ndx(SK_DELLNR)] = {{S(KC_END), KC_BSPC, KC_NO}},          // Delete line right of cursor
         // extended navigation
-    [SK_ndx(SK_WORDPRV)] = {C(KC_LEFT)},       // WORD LEFT
-    [SK_ndx(SK_WORDNXT)] = {C(KC_RIGHT)},     // WORD RIGHT
-    [SK_ndx(SK_DOCBEG)] = {C(KC_HOME)},          // Go to start of document
-    [SK_ndx(SK_DOCEND)] = {C(KC_END)},         // Go to end of document
-    [SK_ndx(SK_LINEBEG)] = {KC_HOME},          // Go to beg of line
-    [SK_ndx(SK_LINEEND)] = {KC_END},           // Go to end of line
+    [SK_ndx(SK_WORDPRV)] = {{C(KC_LEFT), KC_NO}},       // WORD LEFT
+    [SK_ndx(SK_WORDNXT)] = {{C(KC_RIGHT), KC_NO}},     // WORD RIGHT
+    [SK_ndx(SK_DOCBEG)] = {{C(KC_HOME), KC_NO}},          // Go to start of document
+    [SK_ndx(SK_DOCEND)] = {{C(KC_END), KC_NO}},         // Go to end of document
+    [SK_ndx(SK_LINEBEG)] = {{KC_HOME, KC_NO}},          // Go to beg of line
+    [SK_ndx(SK_LINEEND)] = {{KC_END, KC_NO}},           // Go to end of line
     // [SK_ndx(SK_PARAPRV)] = {A(KC_UP),C(KC_UP)},           // Go to previous paragraph
     // [SK_ndx(SK_PARANXT)] = {A(KC_DOWN),C(KC_DOWN)},       // Go to next paragraph
     // [SK_ndx(SK_HISTPRV)] = {G(KC_LBRC),A(KC_LEFT)},       // BROWSER BACK
@@ -144,70 +156,85 @@ const uint16_t SemKeys_t[SK_count][OS_count] = {
     //     // Composed letters with diacritics
     // [SK_ndx(SK_ENYE)] = {A(KC_N),ALGR(KC_N)}             // ñ/Ñ 
 };
-void send_alt_code(uint16_t sk) {
-
-    if (sk & 0x8000) {
-    // Always start with numpad 0 if semkeycode starts with 0x8
-    tap_code(KC_P0);
+// Tap a sequence of keycodes for a semantic key (public function)
+void tap_semkey_code(uint16_t sk) {
+    if (!is_SemKey(sk)) {
+        return;
     }
 
-    // Extract & send digits using keypad keys
-    tap_code((sk >> 8) & 0x0F ? KC_P0 - ((10 - (sk >> 8)) & 0x0F) : KC_P0);
-    tap_code((sk >> 4) & 0x0F ? KC_P0 - ((10 - (sk >> 4)) & 0x0F) : KC_P0);
-    tap_code((sk >> 0) & 0x0F ? KC_P0 - ((10 - (sk >> 0)) & 0x0F) : KC_P0);
+    uint16_t idx = SK_ndx(sk);
+    if (idx >= SK_count) {
+        return;
+    }
 
-};
+    const semkey_map_t *entry = &semkey_table[idx];
+    const uint16_t *sequence = entry->win_sequence;
+
+    uint8_t held_mods = get_mods();
+    uint8_t held_weak_mods = get_weak_mods();
+
+    clear_mods();
+    clear_weak_mods();
+    send_keyboard_report();
+    wait_ms(10);
+
+    // Tap each keycode in the sequence until we hit KC_NO
+    for (int i = 0; i < MAX_SEMKEY_SEQUENCE && sequence[i] != KC_NO; i++) {
+        tap_code16(sequence[i]);
+    }
+
+    set_mods(held_mods);
+    set_weak_mods(held_weak_mods);
+    send_keyboard_report();
+}
+
+// Get the first platform-specific keycode for a semantic key (for backwards compatibility)
+// Returns KC_NO for multi-keycode sequences
+uint16_t get_semkey_code(uint16_t sk) {
+    if (!is_SemKey(sk)) {
+        return KC_NO;
+    }
+
+    uint16_t idx = SK_ndx(sk);
+    if (idx >= SK_count) {
+        return KC_NO;
+    }
+
+    const semkey_map_t *entry = &semkey_table[idx];
+    const uint16_t *sequence = entry->win_sequence;
+
+    // Return first keycode if it's the only one, otherwise KC_NO (use tap_semkey_code instead)
+    if (sequence[0] != KC_NO && sequence[1] == KC_NO) {
+        return sequence[0];
+    }
+
+    return KC_NO;  // Multi-keycode sequence, can't return a single code
+}
 
 void register_SemKey(uint16_t sk) {
-    uint16_t semkeycode = get_SemKeyCode(sk);
-    
-    if ((semkeycode & 0x8000) || (semkeycode & 0x4000)) {
-        clear_keyboard();           // must have clean buffer.
-        register_code(KC_LALT);     // hold Left Alt
-
-        send_alt_code(semkeycode); // send 3 or 4-digit alt code
-
-        // Alt must stay held here
-
-    } else {
-        register_code16(semkeycode);
+    if (!is_SemKey(sk)) {
+        return;
     }
-};
 
-void tap_SemKey(uint16_t sk) {
-    uint16_t semkeycode = get_SemKeyCode(sk);
+    // Get the platform-specific keycode
+    uint16_t platform_keycode = get_semkey_code(sk);
 
-    if ((semkeycode & 0x8000) || (semkeycode & 0x4000)) {
-        clear_keyboard();           // must have clean buffer.
-        register_code(KC_LALT);     // hold Left Alt
-
-        send_alt_code(semkeycode); // send 3 or 4-digit alt code
-
-        unregister_code(KC_LALT);    // release Left Alt
-
+    // If it's a single keycode, use register/unregister for proper hold behavior
+    if (platform_keycode != KC_NO) {
+        register_code16(platform_keycode);
+        registered_semkey_code = platform_keycode;
     } else {
-        tap_code16(semkeycode);      // regular keycode
+        // Multi-keycode sequence - just tap it
+        tap_semkey_code(sk);
     }
-};
+}
 
-void unregister_SemKey(uint16_t sk) {
-    uint16_t semkeycode = get_SemKeyCode(sk);
-    
-    if ((semkeycode & 0x8000) || (semkeycode & 0x4000)) {
-        // Release Alt to finish Unicode input
-        unregister_code(KC_LALT);
-    } else {
-        unregister_code16(semkeycode);
-    }
-};
 
 bool process_semkey(uint16_t keycode, const keyrecord_t *record) {
     // custom processing could hapen here
     uint8_t  held_mods;
-    static uint16_t registered_wordprv = 0;
-    static uint16_t registered_wordnxt = 0;
-    static uint16_t registered_linebeg = 0;
-    static uint16_t registered_lineend = 0;
+
+    bool del_latch_active = del_latch_is_active();
 
     if (!(is_SemKey(keycode)))
         return true; // nothing to do. continue processing this record
@@ -216,42 +243,41 @@ bool process_semkey(uint16_t keycode, const keyrecord_t *record) {
                 get_weak_mods() |
                 get_oneshot_mods();
 
+    if (del_latch_active && record->event.pressed) {
+        switch (keycode) {
+            case SK_WORDPRV:
+                register_SemKey(SK_DELWDL);
+                return false;
+            case SK_WORDNXT:
+                register_SemKey(SK_DELWDR);
+                return false;
+            case SK_LINEBEG:
+                register_SemKey(SK_DELLNL);
+                return false;
+            case SK_LINEEND:
+                register_SemKey(SK_DELLNR);
+                return false;
+        }
+    }
+
     if (record->event.pressed) {
         switch (keycode) {
-            case SK_WORDPRV: //
-                if (!(held_mods & ~MOD_MASK_SHIFT)) {
-                    register_SemKey(SK_WORDPRV);
-                    registered_wordprv = SK_WORDPRV;
-                } else {
-                    register_SemKey(SK_DELWDL);
-                    registered_wordprv = SK_DELWDL;
-                }
-                break;
-            case SK_WORDNXT: //
-                if (!(held_mods & ~MOD_MASK_SHIFT)) {
-                    register_SemKey(SK_WORDNXT);
-                    registered_wordnxt = SK_WORDNXT;
-                } else {
-                    register_SemKey(SK_DELWDR);
-                    registered_wordnxt = SK_DELWDR;
-                }
-                break;
             case SK_LINEBEG: //
                 if (!(held_mods & ~MOD_MASK_SHIFT)) {
                     register_SemKey(SK_LINEBEG);
-                    registered_linebeg = SK_LINEBEG;
                 } else if (held_mods & MOD_MASK_CTRL) {
                     register_SemKey(SK_DOCBEG);
-                    registered_linebeg = SK_DOCBEG;
+                } else {
+                    register_SemKey(SK_LINEBEG);
                 }
                 break;
             case SK_LINEEND: //
                 if (!(held_mods & ~MOD_MASK_SHIFT)) {
                     register_SemKey(SK_LINEEND);
-                    registered_lineend = SK_LINEEND;
                 } else if (held_mods & MOD_MASK_CTRL) {
                     register_SemKey(SK_DOCEND);
-                    registered_lineend = SK_DOCEND;
+                } else {
+                    register_SemKey(SK_LINEEND);
                 }
                 break;
 
@@ -260,34 +286,10 @@ bool process_semkey(uint16_t keycode, const keyrecord_t *record) {
                 break;
         }
     } else { // The keyup event
-        switch (keycode) {
-            case SK_WORDPRV: //
-                if (registered_wordprv) {
-                    unregister_SemKey(registered_wordprv);
-                    registered_wordprv = 0;
-                }
-                break;
-            case SK_WORDNXT: //
-                if (registered_wordnxt) {
-                    unregister_SemKey(registered_wordnxt);
-                    registered_wordnxt = 0;
-                }
-                break;
-            case SK_LINEBEG: //
-                if (registered_linebeg) {
-                    unregister_SemKey(registered_linebeg);
-                    registered_linebeg = 0;
-                }
-                break;
-            case SK_LINEEND: //
-                if (registered_lineend) {
-                    unregister_SemKey(registered_lineend);
-                    registered_lineend = 0;
-                }
-                break;
-            default:
-                unregister_SemKey(keycode);
-                break;
+        // Key release: unregister whatever we sent on keydown
+        if (registered_semkey_code != KC_NO) {
+            unregister_code16(registered_semkey_code);
+            registered_semkey_code = KC_NO;
         }
 
     }

@@ -115,6 +115,11 @@
             "name": "SK_LINEEND",
             "title": "Line End",
             "shortName": "Line End"
+        },
+        {
+            "name": "DEL_LATCH",
+            "title": "Delete Flag",
+            "shortName": "DEL_LATCH"
         }
     ],
     "layouts": {

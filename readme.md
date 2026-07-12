@@ -226,3 +226,51 @@ void update_rgb_state(void) {
 }
 ```
 For this version i used the same effect for all the layers, just changed the color used for that effect.
+
+
+## 6. Layers
+
+### Default
+
+![](./images/row-1-column-1.png)
+
+### Numbers
+
+![](./images/row-2-column-1.png)
+
+### Symbols
+
+![](./images/row-3-column-1.png)
+
+### Programation
+
+![](./images/row-4-column-1.png)
+
+### Navigation
+
+![](./images/row-5-column-1.png)
+
+
+#### Delete
+
+![](./images/row-6-column-1.png)
+
+#### Tabs
+
+![](./images/row-7-column-1.png)
+
+#### Modes
+
+![](./images/modes.png)
+
+(Based on https://github.com/xcambar/luz-keymaps)
+
+### Functions
+
+![](./images/row-8-column-1.png)
+
+
+### Combos
+
+![](./images/combos.png)
+

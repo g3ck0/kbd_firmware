@@ -76,6 +76,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     update_rgb_state();
     if (!layer_state_cmp(state, 2)) {
         sel_latch_off();
+        del_latch_off();
     }
     return state;
 }

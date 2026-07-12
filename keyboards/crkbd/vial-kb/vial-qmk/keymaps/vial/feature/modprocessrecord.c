@@ -1,31 +1,35 @@
 #include QMK_KEYBOARD_H
+#include "modcase.h"
 #include "../xcase/xcase.h"
+#include "../handsdown/moutis_semantickeys.h"
 #define SEL_LATCH QK_KB_7
 #define MOD_ACCENT QK_KB_8
+#define DEL_LATCH QK_KB_21
 
 // Compose state: armed by the Shift+Space thumb combo, consumed by the next keypress
 static bool compose_pending = false;
 
 // Select latch state: real Shift, scoped to the EXTEND layer
 static bool sel_latch_active = false;
+static bool del_latch_active = false;
 
-static void sel_latch_off(void) {
+void sel_latch_off(void) {
     if (sel_latch_active) {
         unregister_code(KC_LSFT);
         sel_latch_active = false;
     }
 }
 
-// layer_state_t layer_state_set_user(layer_state_t state) {
-//     // ADJUST tri-layer: active while both EXTEND and SYMBOLS are held
-//     state = update_tri_layer_state(state, EXTEND, SYMBOLS, ADJUST);
+void del_latch_off(void) {
+    if (del_latch_active) {
+        del_latch_active = false;
+    }
+}
 
-//     // Latch lifecycle: released on leaving EXTEND; delete hold (EXTEND_DEL) wins over select
-//     // if (!layer_state_cmp(state, 2) || layer_state_cmp(state, EXTEND_DEL)) {
-//     //     sel_latch_off();
-//     // }
-//     // return state;
-// }
+bool del_latch_is_active(void) {
+    return del_latch_active;
+}
+
 
 /**
  * @brief Process a keypress with xcase.
@@ -83,6 +87,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
     }
 
+    if (!process_semkey(keycode, record)) {
+        return false; // took care of that key
+    }
+
     // Handle activation/deactivation keycodes first
     if (record->event.pressed) {
         switch (keycode) {
@@ -111,11 +119,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     }
                 }
                 return false;
+            case DEL_LATCH:
+                if (record->event.pressed) {
+                    if (del_latch_active) {
+                        del_latch_off();
+                    } else {
+                        del_latch_active = true;
+                    }
+                }
+                return false;
 
             case KC_ESC:
                 // Esc bails out of an active selection latch (mirrors oneshot cancel)
                 if (record->event.pressed) {
                     sel_latch_off();
+                    del_latch_off();
                 }
                 break;
             case MOD_ACCENT:
@@ -136,12 +154,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         switch (base) {
             case KC_ESC:
                 sel_latch_off();
+                del_latch_off();
                 break; // ← break, not return false, so LT still works normally
         }
     }
 
     // If not active, pass all keys through
-    if (!xcase_active) {
+    if (!is_xcase_active()) {
         return true;
     }
 
@@ -157,9 +176,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         if (base_keycode == KC_SPC) {
             // check for double space to exit xcase mode
-            if (last_keycode == KC_SPC) {
-                if (xcase_delimiter != KC_LSFT &&
-                    xcase_delimiter != KC_CAPS)
+            if (get_xcase_last_keycode() == KC_SPC) {
+                if (get_xcase_delimiter() != KC_LSFT &&
+                    get_xcase_delimiter() != KC_CAPS)
                 {
                     tap_code(KC_BSPC); // remove the trailing delimiter for non-camelCase
                 }
@@ -168,12 +187,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
 
             // replace space with delimiter
-            if (xcase_delimiter == KC_LSFT) {
-                add_oneshot_mods(MOD_BIT(xcase_delimiter));  // add one-shot shift for camelCase
+            if (get_xcase_delimiter() == KC_LSFT) {
+                add_oneshot_mods(MOD_BIT(get_xcase_delimiter()));  // add one-shot shift for camelCase
             } else {
-                tap_code16(xcase_delimiter);  // send the delimiter
+                tap_code16(get_xcase_delimiter());  // send the delimiter
             }
-            last_keycode = KC_SPC;
+            set_xcase_last_keycode(KC_SPC);
             return false; // do not send space
         }
 
@@ -181,7 +200,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (!is_xcase_exclusion_keycode(base_keycode)) {
             disable_xcase();
         } else {
-            last_keycode = base_keycode;
+            set_xcase_last_keycode(base_keycode);
         }
         return true;
     }

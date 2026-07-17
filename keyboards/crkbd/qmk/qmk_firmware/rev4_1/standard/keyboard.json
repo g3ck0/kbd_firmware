@@ -70,9 +70,9 @@
             "shortName": "SEL_LATCH"
         },
         {
-            "name": "MOD_ACCENT",
-            "title": "Accent Flag",
-            "shortName": "ACCENT"
+            "name": "DEL_LATCH",
+            "title": "Delete Flag",
+            "shortName": "DEL_LATCH"
         },
         {
             "name": "MOD_ACCENT",
@@ -138,11 +138,6 @@
             "name": "SK_LINEEND",
             "title": "Line End",
             "shortName": "Line End"
-        },
-        {
-            "name": "DEL_LATCH",
-            "title": "Delete Flag",
-            "shortName": "DEL_LATCH"
         }
     ],
     "matrix_pins": {

@@ -1,10 +1,8 @@
 #include QMK_KEYBOARD_H
+#include "../custom_keycodes.h"
 #include "modcase.h"
 #include "../xcase/xcase.h"
 #include "../handsdown/moutis_semantickeys.h"
-#define SEL_LATCH QK_KB_7
-#define MOD_ACCENT QK_KB_8
-#define DEL_LATCH QK_KB_21
 
 // Compose state: armed by the Shift+Space thumb combo, consumed by the next keypress
 static bool compose_pending = false;

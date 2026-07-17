@@ -27,8 +27,6 @@ static const semkey_map_t semkey_table[SK_count] = {
     // [SK_ndx(SK_AIVC)] = {C(S(KC_4)),G(KC_C)},             // AI voice control (mac Siri/Win Cortana)
     //     // extended characters/ editing commands
     // [SK_ndx(SK_HENT)] = {G(KC_ENT),C(KC_ENT)},            // Hard ENTER
-    // [SK_ndx(SK_UNDO)] = {G(KC_Z),C(KC_Z)},                // undo
-    // [SK_ndx(SK_REDO)] = {G(S(KC_Z)),C(S(KC_Z))},          // Redo
     // [SK_ndx(SK_CUT )] = {G(KC_X),C(KC_X)},                // cut
     // [SK_ndx(SK_COPY)] = {G(KC_C),C(KC_C)},                // copy
     // [SK_ndx(SK_PSTE)] = {G(KC_V),C(KC_V)},                // paste
@@ -48,12 +46,13 @@ static const semkey_map_t semkey_table[SK_count] = {
     [SK_ndx(SK_DELLNL)] = {{S(KC_HOME), KC_BSPC, KC_NO}},        // Delete line left of cursor
     [SK_ndx(SK_DELLNR)] = {{S(KC_END), KC_BSPC, KC_NO}},          // Delete line right of cursor
         // extended navigation
-    [SK_ndx(SK_WORDPRV)] = {{C(KC_LEFT), KC_NO}},       // WORD LEFT
-    [SK_ndx(SK_WORDNXT)] = {{C(KC_RIGHT), KC_NO}},     // WORD RIGHT
-    [SK_ndx(SK_DOCBEG)] = {{C(KC_HOME), KC_NO}},          // Go to start of document
-    [SK_ndx(SK_DOCEND)] = {{C(KC_END), KC_NO}},         // Go to end of document
-    [SK_ndx(SK_LINEBEG)] = {{KC_HOME, KC_NO}},          // Go to beg of line
-    [SK_ndx(SK_LINEEND)] = {{KC_END, KC_NO}},           // Go to end of line
+    [SK_ndx(SK_WORDPRV)]        = {{C(KC_LEFT), KC_NO}},        // WORD LEFT
+    [SK_ndx(SK_WORDNXT)]        = {{C(KC_RIGHT), KC_NO}},       // WORD RIGHT
+    [SK_ndx(SK_DOCBEG)]         = {{C(KC_HOME), KC_NO}},        // Go to start of document
+    [SK_ndx(SK_DOCEND)]         = {{C(KC_END), KC_NO}},         // Go to end of document
+    [SK_ndx(SK_LINEBEG)]        = {{KC_HOME, KC_NO}},           // Go to beg of line
+    [SK_ndx(SK_LINEEND)]        = {{KC_END, KC_NO}},            // Go to end of line
+    //
     // [SK_ndx(SK_PARAPRV)] = {A(KC_UP),C(KC_UP)},           // Go to previous paragraph
     // [SK_ndx(SK_PARANXT)] = {A(KC_DOWN),C(KC_DOWN)},       // Go to next paragraph
     // [SK_ndx(SK_HISTPRV)] = {G(KC_LBRC),A(KC_LEFT)},       // BROWSER BACK

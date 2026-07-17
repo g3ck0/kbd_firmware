@@ -1,15 +1,10 @@
 #include QMK_KEYBOARD_H
 
+#include "custom_keycodes.h"
 #include "feature/modcase.h"
 #include "xcase/xcase.h"
 #include "feature/modprocessrecord.h"
 #include "handsdown/moutis_semantickeys.h"
-
-
-// Custom keycode aliases (defined in modprocessrecord.c and vial.json)
-// QK_KB_0 = SELWORD   QK_KB_1 = SELWBAK   QK_KB_2 = SELLINE
-// QK_KB_3 = XCASE_SNAKE  QK_KB_4 = XCASE_KEBAB  QK_KB_5 = XCASE_CAMEL
-// QK_KB_6 = XCASE_OFF    QK_KB_7 = SEL_LATCH     QK_KB_8 = MOD_ACCENT
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -98,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //  |-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------|        |-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------|
            KC_PGDN      ,    KC_LEFT      ,    KC_DOWN      ,    KC_RIGHT     , LCTL(KC_PGDN)   ,     XXXXXXX     ,     _______     ,              _______     ,     XXXXXXX     ,     XXXXXXX     ,    KC_LEFT      ,    KC_DOWN      ,    KC_RIGHT     ,   KC_PGDN       ,
   //  |-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------|        |-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------|
-           QK_KB_7      ,  SK_WORDPRV     ,     XXXXXXX     ,     SK_WORDNXT  ,     XXXXXXX     ,     XXXXXXX     ,                                                  XXXXXXX     ,     XXXXXXX     ,  LCTL(KC_LEFT)  ,    XXXXXXX      , LCTL(KC_RIGHT)  ,   QK_KB_7       ,
+           SEL_LATCH      ,  SK_WORDPRV     ,     XXXXXXX     ,     SK_WORDNXT  ,     XXXXXXX     ,     XXXXXXX     ,                                                  XXXXXXX     ,     XXXXXXX     ,  LCTL(KC_LEFT)  ,    XXXXXXX      , LCTL(KC_RIGHT)  ,   SEL_LATCH       ,
   //  `-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+                 |        |                 +-----------------+-----------------+-----------------+-----------------+-----------------+-----------------'
                                                                                    _______      ,     _______     ,     _______     ,          QK_LAYER_LOCK   ,     MO(7)       ,     MO(6)
   //                                                                          `-----------------+-----------------+-----------------'        `-----------------+-----------------+-----------------'

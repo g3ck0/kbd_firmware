@@ -52,6 +52,11 @@
             "shortName": "SEL_LATCH"
         },
         {
+            "name": "DEL_LATCH",
+            "title": "Delete Flag",
+            "shortName": "DEL_LATCH"
+        },
+        {
             "name": "MOD_ACCENT",
             "title": "Accent Flag",
             "shortName": "ACCENT"
@@ -115,11 +120,6 @@
             "name": "SK_LINEEND",
             "title": "Line End",
             "shortName": "Line End"
-        },
-        {
-            "name": "DEL_LATCH",
-            "title": "Delete Flag",
-            "shortName": "DEL_LATCH"
         }
     ],
     "layouts": {

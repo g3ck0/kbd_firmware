@@ -19,5 +19,5 @@ enum custom_keycodes {
     SK_DOCBEG,
     SK_DOCEND,
     SK_LINEBEG,
-    SK_LINEEND
+    SK_LINEEND,
 };

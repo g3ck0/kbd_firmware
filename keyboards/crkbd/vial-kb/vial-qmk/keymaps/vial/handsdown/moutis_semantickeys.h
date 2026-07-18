@@ -2,7 +2,7 @@
 
 #include "../custom_keycodes.h"
 
-#define SK_beg SK_KILL
+#define SK_beg SK_DELWDL
 #define SK_end (SK_LINEEND + 1)
 #define SK_count (SK_end - SK_beg)
 #define SK_ndx(sk) (sk - SK_beg)

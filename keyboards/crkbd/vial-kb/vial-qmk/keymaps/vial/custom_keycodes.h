@@ -10,8 +10,6 @@ enum custom_keycodes {
     SEL_LATCH,
     DEL_LATCH,
     MOD_ACCENT,
-    SK_KILL,
-    SK_FIND,
     SK_DELWDL,
     SK_DELWDR,
     SK_DELLNL,

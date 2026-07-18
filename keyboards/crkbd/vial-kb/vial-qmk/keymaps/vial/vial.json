@@ -49,27 +49,17 @@
         {
             "name": "SEL_LATCH",
             "title": "Selection Flag",
-            "shortName": "SEL_LATCH"
+            "shortName": "SEL LATCH"
         },
         {
             "name": "DEL_LATCH",
             "title": "Delete Flag",
-            "shortName": "DEL_LATCH"
+            "shortName": "DEL LATCH"
         },
         {
             "name": "MOD_ACCENT",
             "title": "Accent Flag",
             "shortName": "ACCENT"
-        },
-        {
-            "name": "SK_KILL",
-            "title": "Kill",
-            "shortName": "Kill"
-        },
-        {
-            "name": "SK_FIND",
-            "title": "Find",
-            "shortName": "Find"
         },
         {
             "name": "SK_DELWDL",

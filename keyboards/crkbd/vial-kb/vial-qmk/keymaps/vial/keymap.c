@@ -180,17 +180,19 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 
 #ifdef SWAP_HANDS_ENABLE
 __attribute__((weak)) const keypos_t PROGMEM hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
-    // Left
-    {{0, 4}, {1, 4}, {2, 4}, {3, 4}, {4, 4}, {5, 4}},
-    {{0, 5}, {1, 5}, {2, 5}, {3, 5}, {4, 5}, {5, 5}},
-    {{0, 6}, {1, 6}, {2, 6}, {3, 6}, {4, 6}, {5, 6}},
-    {{0, 7}, {1, 7}, {2, 7}, {3, 7}, {4, 7}, {5, 7}},
-    // Right
-    {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}},
-    {{0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}},
-    {{0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 2}, {5, 2}},
-    {{0, 3}, {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3}}
+    // Left half (rows 0-3): physically pressed by right hand → read from right half
+    // cols 0-4: target_col = 4-col (mirror), cols 5-6: target_col = col (same)
+    // thumbs (row 3, cols 3-5): same position (inner↔inner, middle↔middle, outer↔outer)
+    {{4, 4}, {3, 4}, {2, 4}, {1, 4}, {0, 4}, {5, 4}, {6, 4}},  // row 0 → row 4
+    {{4, 5}, {3, 5}, {2, 5}, {1, 5}, {0, 5}, {5, 5}, {6, 5}},  // row 1 → row 5
+    {{4, 6}, {3, 6}, {2, 6}, {1, 6}, {0, 6}, {5, 6}, {0, 0}},  // row 2 → row 6
+    {{0, 0}, {0, 0}, {0, 0}, {3, 7}, {4, 7}, {5, 7}, {0, 0}},  // row 3 (thumbs) → row 7
+    // Right half (rows 4-7): physically pressed by left hand → read from left half
+    {{4, 0}, {3, 0}, {2, 0}, {1, 0}, {0, 0}, {5, 0}, {6, 0}},  // row 4 → row 0
+    {{4, 1}, {3, 1}, {2, 1}, {1, 1}, {0, 1}, {5, 1}, {6, 1}},  // row 5 → row 1
+    {{4, 2}, {3, 2}, {2, 2}, {1, 2}, {0, 2}, {5, 2}, {0, 0}},  // row 6 → row 2
+    {{0, 0}, {0, 0}, {0, 0}, {3, 3}, {4, 3}, {5, 3}, {0, 0}}   // row 7 (thumbs) → row 3
 };
 
-__attribute__((weak)) const uint8_t PROGMEM encoder_hand_swap_config[NUM_ENCODERS] = {0};
+__attribute__((weak)) const uint8_t PROGMEM encoder_hand_swap_config[NUM_ENCODERS] = {2, 3, 0, 1};
 #endif

@@ -7,3 +7,7 @@
 # qmk
 .build/*
 keyboards/crkbd/vial-kb/vial-qmk/.build/*
+
+# opencode
+AGENTS.md
+.opencode/*

@@ -11,7 +11,7 @@ void update_rgb_state(void) {
 
     if (caps_word_active || caps_lock_active) {
         // Override with caps indication
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+        rgb_matrix_mode_noeeprom(RGB_MATRIX_CYCLE_PINWHEEL);
         if (caps_word_active) {
             rgb_matrix_sethsv_noeeprom(HSV_YELLOW); // Yellow for Caps Word
         } else {
@@ -22,32 +22,32 @@ void update_rgb_state(void) {
 
     // Set RGB based on current layer
     switch (get_highest_layer(layer_state)) {
-        case 0:// Default layer
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_TYPING_HEATMAP);
+        case 0:
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_SPLASH);
             rgb_matrix_sethsv_noeeprom(HSV_BLUE);
             break;
         case 1:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_STARLIGHT_SMOOTH);
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_PIXEL_RAIN);
             rgb_matrix_sethsv_noeeprom(HSV_RED);
             break;
         case 2:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_STARLIGHT_SMOOTH);
-            rgb_matrix_sethsv_noeeprom(HSV_BLUE);
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_JELLYBEAN_RAINDROPS);
+            rgb_matrix_sethsv_noeeprom(HSV_CYAN);           // Cambiado para diferenciar
             break;
         case 3:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_STARLIGHT_SMOOTH);
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_RAINBOW_PINWHEELS);
             rgb_matrix_sethsv_noeeprom(HSV_PURPLE);
             break;
         case 4:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_STARLIGHT_SMOOTH);
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_DIGITAL_RAIN);
             rgb_matrix_sethsv_noeeprom(HSV_MAGENTA);
             break;
         case 5:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_STARLIGHT_SMOOTH);
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_FLOWER_BLOOMING);
             rgb_matrix_sethsv_noeeprom(HSV_AZURE);
             break;
         case 6:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_STARLIGHT_SMOOTH);
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_CYCLE_SPIRAL);
             rgb_matrix_sethsv_noeeprom(HSV_GREEN);
             break;
         case 7:

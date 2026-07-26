@@ -44,7 +44,7 @@ void update_rgb_state(void) {
             break;
         case 5:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_FLOWER_BLOOMING);
-            rgb_matrix_sethsv_noeeprom(HSV_AZURE);
+            rgb_matrix_sethsv_noeeprom(HSV_TEAL);
             break;
         case 6:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_CYCLE_SPIRAL);

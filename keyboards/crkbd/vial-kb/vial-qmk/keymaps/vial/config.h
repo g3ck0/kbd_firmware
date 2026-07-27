@@ -10,7 +10,19 @@
 
 // Define Layers to 10
 #undef DYNAMIC_KEYMAP_LAYER_COUNT
-#define DYNAMIC_KEYMAP_LAYER_COUNT 10
+#define DYNAMIC_KEYMAP_LAYER_COUNT 8
+
+
+#undef DYNAMIC_KEYMAP_MACRO_COUNT
+#define DYNAMIC_KEYMAP_MACRO_COUNT 8   // # Macros.
+#undef VIAL_TAP_DANCE_ENTRIES
+#define VIAL_TAP_DANCE_ENTRIES 16       // # Tap Dances.
+#undef VIAL_COMBO_ENTRIES
+#define VIAL_COMBO_ENTRIES 48           // # Combos.
+#undef VIAL_KEY_OVERRIDE_ENTRIES
+#define VIAL_KEY_OVERRIDE_ENTRIES 16    // # Key Overrides.
+#undef VIAL_ALT_REPEAT_KEY_ENTRIES
+#define VIAL_ALT_REPEAT_KEY_ENTRIES 8  // # Alt Repeat entries.
 
 #ifdef RGB_MATRIX_ENABLE
 

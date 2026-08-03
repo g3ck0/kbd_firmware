@@ -22,7 +22,7 @@
 #undef VIAL_KEY_OVERRIDE_ENTRIES
 #define VIAL_KEY_OVERRIDE_ENTRIES 16    // # Key Overrides.
 #undef VIAL_ALT_REPEAT_KEY_ENTRIES
-#define VIAL_ALT_REPEAT_KEY_ENTRIES 8  // # Alt Repeat entries.
+#define VIAL_ALT_REPEAT_KEY_ENTRIES 16  // # Alt Repeat entries.
 
 #ifdef RGB_MATRIX_ENABLE
 

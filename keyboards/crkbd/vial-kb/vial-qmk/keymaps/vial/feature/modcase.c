@@ -42,22 +42,5 @@ void leader_end_user(void) {
         enable_xcase_with(KC_LSFT );
     }
     
-    if (leader_sequence_one_key(KC_A)){
-        tap_accented(RALT(KC_A), RALT(S(KC_A)));
-    }else if (leader_sequence_one_key(KC_E)){
-         tap_accented(RALT(KC_E), RALT(S(KC_E)));
-    }
-    else if (leader_sequence_one_key(KC_I)){
-         tap_accented(RALT(KC_I), RALT(S(KC_I)));
-    }
-    else if (leader_sequence_one_key(KC_O)){
-         tap_accented(RALT(KC_O), RALT(S(KC_O)));
-    }
-    else if (leader_sequence_one_key(KC_U)){
-         tap_accented(RALT(KC_U), RALT(S(KC_U)));
-    }
-    else if (leader_sequence_one_key(KC_N)){
-         tap_accented(RALT(KC_N), RALT(S(KC_N)));
-    }
 }
 

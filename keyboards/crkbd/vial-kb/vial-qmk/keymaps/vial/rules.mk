@@ -5,6 +5,9 @@ ENCODER_MAP_ENABLE 	= no
 LAYER_LOCK_ENABLE 	= yes
 SWAP_HANDS_ENABLE 	= yes
 LEADER_ENABLE 		= yes
+REPEAT_KEY_ENABLE 	= no
+HAPTIC_ENABLE 		= no
+JOYSTICK_ENABLE 	= no
 
 
 #to improve shrink of the file

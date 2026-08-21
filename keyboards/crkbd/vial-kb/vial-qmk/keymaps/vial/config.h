@@ -13,16 +13,16 @@
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
 
 
-#undef DYNAMIC_KEYMAP_MACRO_COUNT
-#define DYNAMIC_KEYMAP_MACRO_COUNT 8   // # Macros.
 #undef VIAL_TAP_DANCE_ENTRIES
-#define VIAL_TAP_DANCE_ENTRIES 16       // # Tap Dances.
+#define VIAL_TAP_DANCE_ENTRIES 8       // # Tap Dances.
+#undef DYNAMIC_KEYMAP_MACRO_COUNT
+#define DYNAMIC_KEYMAP_MACRO_COUNT 16   // # Macros.
 #undef VIAL_COMBO_ENTRIES
 #define VIAL_COMBO_ENTRIES 48           // # Combos.
 #undef VIAL_KEY_OVERRIDE_ENTRIES
-#define VIAL_KEY_OVERRIDE_ENTRIES 16    // # Key Overrides.
+#define VIAL_KEY_OVERRIDE_ENTRIES 8    // # Key Overrides.
 #undef VIAL_ALT_REPEAT_KEY_ENTRIES
-#define VIAL_ALT_REPEAT_KEY_ENTRIES 16  // # Alt Repeat entries.
+#define VIAL_ALT_REPEAT_KEY_ENTRIES 4  // # Alt Repeat entries.
 
 #ifdef RGB_MATRIX_ENABLE
 

@@ -8,6 +8,7 @@
 static bool xcase_active = false;
 static uint16_t xcase_delimiter = KC_UNDS;
 static uint16_t last_keycode = KC_NO;
+static bool xcase_upper_next = false;
 
 #define MAX_EXCLUSION_KEYCODES 16
 static uint16_t exclusion_keycodes[MAX_EXCLUSION_KEYCODES];
@@ -208,6 +209,7 @@ void enable_xcase_with(uint16_t delimiter) {
         }
 
     last_keycode = KC_NO;
+    xcase_upper_next = false;
     xcase_active = true;
     add_xcase_exclusion_keycode(delimiter);
 }
@@ -219,6 +221,7 @@ void enable_xcase_with(uint16_t delimiter) {
 void disable_xcase(void) {
     xcase_active = false;
     last_keycode = KC_NO;
+    xcase_upper_next = false;
     remove_xcase_exclusion_keycode(xcase_delimiter);
 }
 
@@ -242,4 +245,18 @@ uint16_t get_xcase_last_keycode(void) {
  */
 void set_xcase_last_keycode(uint16_t kc) {
     last_keycode = kc;
+}
+
+/**
+ * @brief Check if the next word should start with a capital letter.
+ */
+bool is_xcase_upper_next(void) {
+    return xcase_upper_next;
+}
+
+/**
+ * @brief Set whether the next word should start with a capital letter.
+ */
+void set_xcase_upper_next(bool upper) {
+    xcase_upper_next = upper;
 }

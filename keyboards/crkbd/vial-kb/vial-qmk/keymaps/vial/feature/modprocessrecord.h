@@ -6,3 +6,4 @@
 void sel_latch_off(void);
 void del_latch_off(void);
 bool del_latch_is_active(void);
+void tap_accented(uint16_t lower, uint16_t upper);

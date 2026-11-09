@@ -1,7 +1,7 @@
 #include QMK_KEYBOARD_H
 
 #include "custom_keycodes.h"
-#include "feature/modcase.h"
+// #include "feature/modcase.h"
 #include "xcase/xcase.h"
 #include "feature/modprocessrecord.h"
 #include "handsdown/moutis_semantickeys.h"

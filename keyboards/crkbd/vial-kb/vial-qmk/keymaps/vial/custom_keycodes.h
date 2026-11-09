@@ -4,6 +4,7 @@
 
 enum custom_keycodes {
     XCASE_SNAKE = QK_KB_3,
+    XCASE_SNAKE_UPPER,
     XCASE_KEBAB,
     XCASE_CAMEL,
     XCASE_OFF,
@@ -20,4 +21,8 @@ enum custom_keycodes {
     SK_DOCEND,
     SK_LINEBEG,
     SK_LINEEND,
+    DIAG_UP_LEFT,
+    DIAG_UP_RIGHT,
+    DIAG_DOWN_RIGHT,
+    DIAG_DOWN_LEFT
 };

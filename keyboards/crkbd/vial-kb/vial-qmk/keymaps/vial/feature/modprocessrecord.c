@@ -1,6 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "../custom_keycodes.h"
-#include "modcase.h"
+// #include "modcase.h"
 #include "../xcase/xcase.h"
 #include "../handsdown/moutis_semantickeys.h"
 
@@ -28,6 +28,15 @@ bool del_latch_is_active(void) {
     return del_latch_active;
 }
 
+void tap_accented(uint16_t lower, uint16_t upper) {
+    if (get_mods() & MOD_MASK_SHIFT) {
+        del_mods(MOD_MASK_SHIFT);
+        tap_code16(upper);
+        add_mods(MOD_MASK_SHIFT);
+    } else {
+        tap_code16(lower);
+    }
+}
 
 /**
  * @brief Process a keypress with xcase.
@@ -89,12 +98,65 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false; // took care of that key
     }
 
+    switch(keycode){
+        //MOUSE DIAGONAL
+        case DIAG_UP_LEFT:
+            if (record->event.pressed) {
+                // Key is pressed: Start moving diagonally
+                register_code(KC_MS_UP);
+                register_code(KC_MS_LEFT);
+            } else {
+                // Key is released: Stop moving immediately
+                unregister_code(KC_MS_UP);
+                unregister_code(KC_MS_LEFT);
+            }
+            return false;
+        case DIAG_UP_RIGHT:
+            if (record->event.pressed) {
+                // Key is pressed: Start moving diagonally
+                register_code(KC_MS_UP);
+                register_code(KC_MS_RIGHT);
+            } else {
+                // Key is released: Stop moving immediately
+                unregister_code(KC_MS_UP);
+                unregister_code(KC_MS_RIGHT);
+            }
+            return false;
+        case DIAG_DOWN_RIGHT:
+            if (record->event.pressed) {
+                // Key is pressed: Start moving diagonally
+                register_code(KC_MS_DOWN);
+                register_code(KC_MS_RIGHT);
+            } else {
+                // Key is released: Stop moving immediately
+                unregister_code(KC_MS_DOWN);
+                unregister_code(KC_MS_RIGHT);
+            }
+            return false;
+        case DIAG_DOWN_LEFT:
+            if (record->event.pressed) {
+                // Key is pressed: Start moving diagonally
+                register_code(KC_MS_DOWN);
+                register_code(KC_MS_LEFT);
+            } else {
+                // Key is released: Stop moving immediately
+                unregister_code(KC_MS_DOWN);
+                unregister_code(KC_MS_LEFT);
+            }
+            return false;
+    }
+
     // Handle activation/deactivation keycodes first
     if (record->event.pressed) {
         switch (keycode) {
             case XCASE_SNAKE:
                 caps_word_off();
                 enable_xcase_with(KC_UNDS);
+                return false; // Keycode handled
+            case XCASE_SNAKE_UPPER:
+                caps_word_off();
+                enable_xcase_with(KC_UNDS);
+                set_xcase_upper_next(true);
                 return false; // Keycode handled
             case XCASE_KEBAB:
                 caps_word_off();
@@ -126,26 +188,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     }
                 }
                 return false;
-
-            case KC_ESC:
-                // Esc bails out of an active selection latch (mirrors oneshot cancel)
-                if (record->event.pressed) {
-                    sel_latch_off();
-                    del_latch_off();
-                }
-                break;
             case MOD_ACCENT:
                 compose_pending = true;
                 return false; // Keycode handled
 
-        // case ARROW_OP:
-        //     if (record->event.pressed) {
-        //         uint8_t saved = get_mods();
-        //         clear_mods();
-        //         send_string((saved & MOD_MASK_SHIFT) ? "=>" : "->");
-        //         set_mods(saved);
-        //     }
-        //     return false;
+        case KC_ESC:
+            // Esc bails out of an active selection latch (mirrors oneshot cancel)
+            if (record->event.pressed) {
+                sel_latch_off();
+                del_latch_off();
+            }
+            break;
                 
         }
         // Handle base keycode for tap-hold keys
@@ -180,6 +233,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 {
                     tap_code(KC_BSPC); // remove the trailing delimiter for non-camelCase
                 }
+                clear_oneshot_mods(); // drop any pending one-shot shift from snake_upper/camel
                 disable_xcase();
                 return true; // Let the second space through
             }
@@ -187,6 +241,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             // replace space with delimiter
             if (get_xcase_delimiter() == KC_LSFT) {
                 add_oneshot_mods(MOD_BIT(get_xcase_delimiter()));  // add one-shot shift for camelCase
+            } else if (get_xcase_delimiter() == KC_UNDS && is_xcase_upper_next()) {
+                tap_code16(get_xcase_delimiter());                 // send the underscore
+                add_oneshot_mods(MOD_BIT(KC_LSFT));                // capitalize the next letter
             } else {
                 tap_code16(get_xcase_delimiter());  // send the delimiter
             }

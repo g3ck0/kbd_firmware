@@ -59,6 +59,19 @@ uint16_t get_xcase_last_keycode(void);
 void set_xcase_last_keycode(uint16_t kc);
 
 /**
+ * @brief Check if the next word should start with a capital letter
+ * (space sends the delimiter plus a one-shot shift).
+ * @return True if upper-next mode is active, false otherwise.
+ */
+bool is_xcase_upper_next(void);
+
+/**
+ * @brief Set whether the next word should start with a capital letter.
+ * @param upper True to enable upper-next mode, false to disable it.
+ */
+void set_xcase_upper_next(bool upper);
+
+/**
  * @brief Process a keypress with xcase.
  * @param keycode The keycode of the keypress.
  * @param record The keyrecord to process.

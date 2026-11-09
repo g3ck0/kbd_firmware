@@ -50,6 +50,11 @@
             "shortName": "XC_SNK"
         },
         {
+            "name": "XCASE_SNAKE_UPPER",
+            "title": "xcase snake upper",
+            "shortName": "XC_SNKU"
+        },
+        {
             "name": "XCASE_KEBAB",
             "title": "xcase kebab case",
             "shortName": "XC_KBB"
@@ -128,6 +133,26 @@
             "name": "SK_LINEEND",
             "title": "Line End",
             "shortName": "Line End"
+        },
+        {
+            "name": "DIAG_UP_LEFT",
+            "title": "Diag Up Left",
+            "shortName": "Up Left"
+        },
+        {
+            "name": "DIAG_UP_RIGHT",
+            "title": "Diag Up Right",
+            "shortName": "Up Right"
+        },
+        {
+            "name": "DIAG_DOWN_RIGHT",
+            "title": "Diag Down Right",
+            "shortName": "Down Right"
+        },
+        {
+            "name": "DIAG_DOWN_LEFT",
+            "title": "Diag Down Left",
+            "shortName": "Down Left"
         }
     ],
     "matrix_pins": {
